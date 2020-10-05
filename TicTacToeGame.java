@@ -34,6 +34,7 @@ public class TicTacToeGame {
 		System.out.println("____________");
 		System.out.println("\n" + board[7] + "|" + board[8] + "|" + board[9]);
 	}
+
 	private static int locationSelection(char board[]) {
 		Scanner sc = new Scanner(System.in);
 		boolean available = false;
@@ -51,21 +52,31 @@ public class TicTacToeGame {
 	public static boolean spaceFree(char board[], int index) {
 		return board[index] == ' ';
 	}
+
 	private static void makeMove(char[] board, char choice) {
 		if (choice == usersChoice) {
-			int  index= locationSelection(board);
+			int index = locationSelection(board);
 			board[index] = choice;
 		}
 		displayBoard(board);
 	}
-	
+
+	public void checkToss() {
+		int toss = (int) (Math.floor(Math.random() * 10) % 2);
+		if (toss == HEAD) {
+			System.out.println("player starts game");
+		} else {
+			System.out.println("computer starts game");
+		}
+	}
+
 	public static void main(String[] args) {
 		char board[] = new char[10];
 		TicTacToeGame game = new TicTacToeGame();
 		game.createBoard();
-		char userLetter=chooseLetter();
+		char userLetter = chooseLetter();
 		TicTacToeGame.displayBoard(board);
-		int userMove= locationSelection(board);
-		makeMove(board,userLetter);
+		int userMove = locationSelection(board);
+		makeMove(board, userLetter);
 	}
 }
