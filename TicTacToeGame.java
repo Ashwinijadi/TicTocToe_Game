@@ -1,5 +1,6 @@
 package com.capgemini.tictactoe_game;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class TicTacToeGame {
@@ -8,11 +9,9 @@ public class TicTacToeGame {
 	private char currentPlayerMark;
 
 	public void createBoard() {
-		char board[][] = new char[3][3];
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				board[i][j] = ' ';
-			}
+		char[] board = new char[10];
+		for (int i = 1; i < board.length; i++) {
+			board[i] = ' ';
 		}
 	}
 
@@ -21,29 +20,27 @@ public class TicTacToeGame {
 		char user = userinput.next().charAt(0);
 		System.out.println(user);
 		if (user == 'O' || user == 'o') {
-			System.out.println("computers letter selection is: 
-X");
+			System.out.println("computers letter selection is: X");
 		} else {
 			System.out.println("computers letter selection is: O");
 		}
 		return user;
 	}
 
-	public static void displayBoard(char board[][]) {
-		System.out.println("\n " + board[0][0] + " |" + board[0][1] + " |" + board[0][2]);
+	public static void displayBoard(char board[]) {
+		System.out.println("\n" + board[1] + "|" + board[2] + "|" + board[3]);
 		System.out.println("____________");
-		System.out.println("\n " + board[1][0] + " |" + board[1][1] + " |" + board[1][2]);
+		System.out.println("\n" + board[4] + "|" + board[5] + "|" + board[6]);
 		System.out.println("____________");
-		System.out.println("\n " + board[2][0] + " |" + board[2][1] + " |" + board[2][2]);
+		System.out.println("\n" + board[7] + "|" + board[8] + "|" + board[9]);
 	}
 
-
-
+	
 	public static void main(String[] args) {
-		char board[][] = new char[3][3];
+		char board[] = new char[10];
 		TicTacToeGame game = new TicTacToeGame();
 		game.createBoard();
 		chooseLetter();
-		displayBoard( board);
+		TicTacToeGame.displayBoard(board);
 	}
 }
