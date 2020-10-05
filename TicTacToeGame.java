@@ -5,8 +5,11 @@ import java.util.Scanner;
 
 public class TicTacToeGame {
 	private static Scanner userinput = new Scanner(System.in);
+	private static final int TAIL=0;
 	private static final int HEAD = 1;
 	private static char usersChoice;;
+	private static char computer;
+	private static char[] board;
 
 	public void createBoard() {
 		char[] board = new char[10];
@@ -65,9 +68,51 @@ public class TicTacToeGame {
 		int toss = (int) (Math.floor(Math.random() * 10) % 2);
 		if (toss == HEAD) {
 			System.out.println("player starts game");
+			checkWinner(toss);
 		} else {
 			System.out.println("computer starts game");
+			checkWinner(toss);
 		}
+	}
+	
+	// Check who is Winner or game is Tie
+	private static void checkWinner(int toss) {
+
+		if (toss == HEAD) {
+			makeMove(board, usersChoice);
+		} else if (toss == TAIL) {
+			makeMove(board, computer);
+		}
+
+		if ((board[1] == board[2] && board[2] == board[3] && board[1] != ' ')
+				|| (board[4] == board[5] && board[5] == board[6] && board[6] != ' ')
+				|| (board[7] == board[8] && board[8] == board[9] && board[9] != ' ')
+				|| (board[1] == board[4] && board[4] == board[7] && board[7] != ' ')
+				|| (board[2] == board[5] && board[5] == board[8] && board[8] != ' ')
+				|| (board[3] == board[6] && board[6] == board[9] && board[9] != ' ')
+				|| (board[1] == board[5] && board[5] == board[9] && board[9] != ' ')
+				|| (board[3] == board[5] && board[5] == board[7] && board[7] != ' ')) {
+			if (toss == HEAD)
+				System.out.println("Winner is User");
+			if (toss== TAIL)
+				System.out.println("Winner is Computer");
+			System.exit(0);
+		} else {
+			if (board[1] != ' ' && board[2] != ' ' && board[3] != ' ' && board[4] != ' ' && board[5] != ' '
+					&& board[6] != ' ' && board[7] != ' ' && board[8] != ' ' && board[9] != ' ') {
+				System.out.println("Game is Tie");
+				System.exit(0);
+			} else {
+				if (toss == HEAD) {
+					toss--;
+					checkWinner(toss);
+				} else if (toss == TAIL) {
+					toss++;
+					checkWinner(toss);
+				}
+			}
+		}
+		displayBoard(board);
 	}
 
 	public static void main(String[] args) {
@@ -78,5 +123,6 @@ public class TicTacToeGame {
 		TicTacToeGame.displayBoard(board);
 		int userMove = locationSelection(board);
 		makeMove(board, userLetter);
+		game.checkToss();
 	}
 }
