@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class TicTacToeGame {
 	private static Scanner userinput = new Scanner(System.in);
 	private static final int HEAD = 1;
-	private char currentPlayerMark;
+	private static char usersChoice;;
 
 	public void createBoard() {
 		char[] board = new char[10];
@@ -44,8 +44,6 @@ public class TicTacToeGame {
 			index = sc.nextInt();
 			if (spaceFree(board, index) && Arrays.asList(validCells).contains(index))
 				available = true;
-			else
-				System.out.println("Invalid Location. Choose from 1 to 9");
 		} while (available == false);
 		return index;
 	}
@@ -53,14 +51,21 @@ public class TicTacToeGame {
 	public static boolean spaceFree(char board[], int index) {
 		return board[index] == ' ';
 	}
-
+	private static void makeMove(char[] board, char choice) {
+		if (choice == usersChoice) {
+			int  index= locationSelection(board);
+			board[index] = choice;
+		}
+		displayBoard(board);
+	}
 	
 	public static void main(String[] args) {
 		char board[] = new char[10];
 		TicTacToeGame game = new TicTacToeGame();
 		game.createBoard();
-		chooseLetter();
+		char userLetter=chooseLetter();
 		TicTacToeGame.displayBoard(board);
-		int position= locationSelection(board);
+		int userMove= locationSelection(board);
+		makeMove(board,userLetter);
 	}
 }
