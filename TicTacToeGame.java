@@ -34,6 +34,25 @@ public class TicTacToeGame {
 		System.out.println("____________");
 		System.out.println("\n" + board[7] + "|" + board[8] + "|" + board[9]);
 	}
+	private static int locationSelection(char board[]) {
+		Scanner sc = new Scanner(System.in);
+		boolean available = false;
+		int index = 0;
+		Integer[] validCells = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+		do {
+			System.out.println("Choose a index on Board from 1 to 9 where to move:");
+			index = sc.nextInt();
+			if (spaceFree(board, index) && Arrays.asList(validCells).contains(index))
+				available = true;
+			else
+				System.out.println("Invalid Location. Choose from 1 to 9");
+		} while (available == false);
+		return index;
+	}
+
+	public static boolean spaceFree(char board[], int index) {
+		return board[index] == ' ';
+	}
 
 	
 	public static void main(String[] args) {
@@ -42,5 +61,6 @@ public class TicTacToeGame {
 		game.createBoard();
 		chooseLetter();
 		TicTacToeGame.displayBoard(board);
+		int position= locationSelection(board);
 	}
 }
