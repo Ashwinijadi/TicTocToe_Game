@@ -9,13 +9,14 @@ public class TicTacToeGame {
 	private static final int HEAD = 1;
 	private static char usersChoice;
 	private static char computer;
-	private static char[] board;
+	private static char board[];
 
-	public void createBoard() {
+	public static char[] createBoard() {
 		char[] board = new char[10];
 		for (int i = 1; i < board.length; i++) {
 			board[i] = ' ';
 		}
+		return board;
 	}
 
 	public static char chooseLetter() {
@@ -40,7 +41,7 @@ public class TicTacToeGame {
 
 	private static int locationSelection(char[] board) {
 		Scanner sc = new Scanner(System.in);
-		boolean available =false;
+		boolean available = false;
 		int index = 0;
 		Integer[] validCells = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 		do {
@@ -54,25 +55,31 @@ public class TicTacToeGame {
 		return index;
 
 	}
+
 	public static boolean spaceFree(char board[], int index) {
 		return board[index] == ' ';
 	}
 
-	private static void makeMove(char[] board,char choice) {
+	private static void makeMove(char[] board, char choice) {
 		if (choice == usersChoice) {
 			int index = locationSelection(board);
+			board[index] = choice;
+		} else  {
+			int index= computerPlaysWithBrain(board, choice);
 			board[index] = choice;
 		}
 		displayBoard(board);
 	}
 
-	public void checkToss() {
+	// Toss of Head & Tail. Head - User, Tail - Computer
+	private static void tossCheckToPlayFirst() {
 		int toss = (int) (Math.floor(Math.random() * 10) % 2);
 		if (toss == HEAD) {
-			System.out.println("player starts game");
+			System.out.println("Player Plays First");
 			checkWinner(toss);
-		} else {
-			System.out.println("computer starts game");
+		}
+		if (toss == TAIL) {
+			System.out.println("Computer Plays First");
 			checkWinner(toss);
 		}
 	}
@@ -81,7 +88,7 @@ public class TicTacToeGame {
 	private static void checkWinner(int toss) {
 
 		if (toss == HEAD) {
-			makeMove(board,usersChoice);
+			makeMove(board, usersChoice);
 		} else if (toss == TAIL) {
 			makeMove(board, computer);
 		}
@@ -216,18 +223,33 @@ public class TicTacToeGame {
 		return index;
 	}
 
+	// Ask User To Play Another Game
+	public static boolean askUserForAnotherGame() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Do you want to play 'y or n'");
+		char answer = sc.next().charAt(0);
+		boolean restart = false;
+		if (answer == 'y' || answer == 'Y') {
+			restart = true;
+		} else if (answer == 'n' || answer == 'N') {
+			restart = false;
+		}
+		return restart;
+	}
+
 	public static void main(String[] args) {
-		char board[] = new char[10];
-		TicTacToeGame game = new TicTacToeGame();
-		game.createBoard();
-		usersChoice = chooseLetter();
-		if(usersChoice=='x')
-			computer='O';
-		else
-			computer='x';
-		TicTacToeGame.displayBoard(board);
-		int userMove = locationSelection(board);
-		makeMove(board, usersChoice);
-		game.checkToss();
+		System.out.println("Welcome to Tic-Tac-Toe Game");
+		boolean restart = askUserForAnotherGame();
+		while (restart) {
+			board = createBoard();
+			usersChoice = chooseLetter();
+
+			// Assigning Letter to Computer
+			if (usersChoice == 'X')
+				computer = 'O';
+			else
+				computer = 'X';
+			tossCheckToPlayFirst();
+		}
 	}
 }
