@@ -38,25 +38,27 @@ public class TicTacToeGame {
 		System.out.println("\n" + board[7] + "|" + board[8] + "|" + board[9]);
 	}
 
-	private static int locationSelection(char board[]) {
+	private static int locationSelection(char[] board) {
 		Scanner sc = new Scanner(System.in);
-		boolean available = false;
+		boolean available =false;
 		int index = 0;
 		Integer[] validCells = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 		do {
-			System.out.println("Choose a index on Board from 1 to 9 where to move:");
+			System.out.println("Choose a position on Board from 1 to 9 where to move:");
 			index = sc.nextInt();
 			if (spaceFree(board, index) && Arrays.asList(validCells).contains(index))
 				available = true;
+			else
+				System.out.println("Invalid Location. Choose from 1 to 9");
 		} while (available == false);
 		return index;
-	}
 
+	}
 	public static boolean spaceFree(char board[], int index) {
 		return board[index] == ' ';
 	}
 
-	private static void makeMove(char[] board, char choice) {
+	private static void makeMove(char[] board,char choice) {
 		if (choice == usersChoice) {
 			int index = locationSelection(board);
 			board[index] = choice;
@@ -79,7 +81,7 @@ public class TicTacToeGame {
 	private static void checkWinner(int toss) {
 
 		if (toss == HEAD) {
-			makeMove(board, usersChoice);
+			makeMove(board,usersChoice);
 		} else if (toss == TAIL) {
 			makeMove(board, computer);
 		}
@@ -93,9 +95,9 @@ public class TicTacToeGame {
 				|| (board[1] == board[5] && board[5] == board[9] && board[9] != ' ')
 				|| (board[3] == board[5] && board[5] == board[7] && board[7] != ' ')) {
 			if (toss == HEAD)
-				System.out.println("Winner is User");
+				System.out.println("Winner is User!");
 			if (toss == TAIL)
-				System.out.println("Winner is Computer");
+				System.out.println("Winner is Computer!");
 			System.exit(0);
 		} else {
 			if (board[1] != ' ' && board[2] != ' ' && board[3] != ' ' && board[4] != ' ' && board[5] != ' '
@@ -219,6 +221,10 @@ public class TicTacToeGame {
 		TicTacToeGame game = new TicTacToeGame();
 		game.createBoard();
 		usersChoice = chooseLetter();
+		if(usersChoice=='x')
+			computer='O';
+		else
+			computer='x';
 		TicTacToeGame.displayBoard(board);
 		int userMove = locationSelection(board);
 		makeMove(board, usersChoice);
